@@ -19,15 +19,18 @@ namespace Hang_a_man
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            GameLogic.WinGame = false;
-            GameLogic.CountChances = 0;
-
-            MessageBox.Show(GameLogic.CountChances.ToString(), "Message");
+            GameLogic.SetupStartCondition();
+            
         }
 
         private void Quit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Start_Click(object sender, EventArgs e)
+        {
+            txtWholeWord.Text = GameLogic.GetOneWord(); 
         }
     }
 }

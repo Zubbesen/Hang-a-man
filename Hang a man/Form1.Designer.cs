@@ -63,6 +63,7 @@
             this.Start.TabIndex = 3;
             this.Start.Text = "Start/Restart";
             this.Start.UseVisualStyleBackColor = true;
+            this.Start.Click += new System.EventHandler(this.Start_Click);
             // 
             // title
             // 
