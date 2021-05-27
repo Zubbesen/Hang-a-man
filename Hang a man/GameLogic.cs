@@ -18,7 +18,7 @@ namespace Hang_a_man
         public static bool IsCorrectLetter { get; set; }
         public static bool GameLost { get; set; }
 
-        #region Operations
+        
 
         /// <summary>
         /// Setup start condition
@@ -27,12 +27,79 @@ namespace Hang_a_man
         {
             CountGuesses = 0;
             GameWon = false;
-            GameLost = false;
-            FullWord = GetOneWord(); //TODO: Will be replaced with random word
-            SecretWord = string.Empty; //TODO: Will be replaced with underscores
+            GameLost = true;
+            FullWord = GetOneWord(); 
+            SecretWord = GetSecretWord(); 
             IsCorrectLetter = false;
             IsCorrectWord = false;
 
+        }
+        public static bool IsWordCorrect(string fullword)
+        {
+            if (fullword == FullWord)
+            {
+                GameWon=true;
+                return GameWon;
+            }
+            else 
+            {
+                CountGuesses++;
+                if (CountGuesses >= 10)
+                {
+                    GameLost = false;
+                    return GameLost;
+                }
+                else
+                    return false;
+            }
+
+        }
+        public static bool CorrectLetter(char letter)
+        {
+            string secretWordTrimmed = SecretWord.Trim();
+            string[] splitWord = secretWordTrimmed.Split();
+
+            if (FullWord.Contains(letter))
+            {
+                for(int i = 0; i <= FullWord.Length-1; i++)
+                {
+                    if  (FullWord[i] == letter)
+                    {
+                        splitWord[i] = letter.ToString();
+                    }
+                }
+                SecretWord = string.Join(" ", splitWord);
+                IsCorrectLetter = true;
+                if (!SecretWord.Contains('_'))
+                {
+                    GameWon = true;
+                    return GameWon;
+                }
+                return IsCorrectLetter;
+            }
+            else
+            {
+                IsCorrectLetter = false;
+                CountGuesses++;    
+                return IsCorrectLetter;
+            }
+
+        }
+
+
+        /// <summary>
+        /// Hides secret word with "_" while also giving hints 
+        /// to the amount of letters for the word.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSecretWord()
+        {
+            SecretWord = string.Empty;
+            foreach (var letter in FullWord)
+            {
+                SecretWord += "_ ";
+            }
+            return SecretWord;
         }
 
         /// <summary>
@@ -47,7 +114,7 @@ namespace Hang_a_man
             int randomNo = random.Next(words.Count);
 
             string FullWord = words[randomNo];
-            return FullWord;            
+            return FullWord.ToUpper();            
         }
 
         /// <summary>
@@ -80,8 +147,7 @@ namespace Hang_a_man
 
             return words;
         }
-
-        #endregion
+        
 
 
     }
